@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
-import "./globals.css";
 
 import { ThemeProvider } from "@/providers/theme-provider";
 
+import type { Metadata } from "next";
+
+import "./globals.css";
 
 const figtree = Figtree({
   subsets: ["latin"],
@@ -22,9 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${figtree.variable} antialiased`}
-      >
+      <body className={`${figtree.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
