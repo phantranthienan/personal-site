@@ -31,9 +31,9 @@ export default function RootLayout({
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          <div className="flex h-fit min-h-screen flex-col">
+          <div className="flex h-fit min-h-screen flex-col gap-y-4">
             <Header />
-            <main className="grow">{children}</main>
+            <main className="mx-auto max-w-3xl grow px-4">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

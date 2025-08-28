@@ -10,11 +10,11 @@ import { NAV_LINKS } from "@/const";
 
 const Header = () => {
   return (
-    <header className="bg-background sticky top-0 z-50 px-4 py-3">
-      <nav className="mx-auto flex max-w-3xl items-center justify-between">
+    <header className="bg-background sticky top-0 z-50">
+      <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-2">
         <Link href="/" className="flex items-center">
           <Star size={20} className="text-foreground fill-foreground" />
-          <span className="text-lg">nPhan</span>
+          <span className="text-lg">nphan</span>
         </Link>
         <div className="flex items-center sm:gap-4">
           <div className="hidden items-center gap-4 text-sm sm:flex sm:gap-6">
