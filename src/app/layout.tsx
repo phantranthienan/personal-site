@@ -1,14 +1,16 @@
-import { Figtree } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 
+import Footer from "@/components/shared/layout/footer";
+import Header from "@/components/shared/layout/header";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 import type { Metadata } from "next";
 
 import "./globals.css";
 
-const figtree = Figtree({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-figtree",
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
@@ -23,13 +25,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${figtree.variable} antialiased`}>
+      <body className={`${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex h-fit min-h-screen flex-col">
+            <Header />
+            <main className="grow">{children}</main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>
