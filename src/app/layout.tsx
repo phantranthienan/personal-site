@@ -1,7 +1,7 @@
 import { JetBrains_Mono } from "next/font/google";
 
-import Footer from "@/components/shared/layout/footer";
-import Header from "@/components/shared/layout/header";
+import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 import type { Metadata } from "next";

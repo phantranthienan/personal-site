@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import MobileMenu from "@/components/ui/mobile-menu";
 import ThemeToggle from "@/components/ui/theme-toggle";
-import { NAV_LINKS } from "@/const";
+import { NAV_LINKS } from "@/config/site";
 
 const Header = () => {
   return (
