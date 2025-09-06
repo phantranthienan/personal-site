@@ -9,7 +9,9 @@ const nextConfig: NextConfig = {
 const withMDX = createMDX({
   options: {
     // remark plugins (Markdown-level)
-    remarkPlugins: [],
+    remarkPlugins: [
+      "remark-frontmatter", // Parse frontmatter
+    ],
     // rehype plugins (HTML-level)
     rehypePlugins: [
       "rehype-slug", // add id="my-heading"

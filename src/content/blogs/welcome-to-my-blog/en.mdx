@@ -1,0 +1,72 @@
+---
+title: "Welcome to My Blog"
+description: "This is my first blog post demonstrating frontmatter integration with Next.js and MDX."
+date: "2024-01-15"
+tags: ["welcome", "mdx", "frontmatter", "nextjs"]
+author: "Your Name"
+published: true
+---
+
+# Welcome to My Blog
+
+This is my first blog post using **MDX** with **frontmatter** support! 
+
+## What is Frontmatter?
+
+Frontmatter is metadata that sits at the top of your Markdown or MDX files. It's written in YAML format and contains information about your content like:
+
+- Title
+- Description
+- Publication date
+- Tags
+- Author information
+- Publication status
+
+## Features Included
+
+This setup includes several useful features:
+
+### 🎯 Frontmatter Parsing
+All blog posts can include YAML frontmatter that gets parsed and made available to your components.
+
+### 📝 TypeScript Support
+Full TypeScript support for frontmatter data with proper type definitions.
+
+### 🏷️ Tagging System
+Organize your posts with tags and filter by them.
+
+### ⏱️ Reading Time Estimation
+Automatic calculation of estimated reading time based on word count.
+
+### 🔍 Blog Utilities
+Helper functions to:
+- Get all blog posts
+- Filter by tags
+- Sort by date
+- Get featured posts
+
+## Code Example
+
+Here's how you can use the blog utilities:
+
+```typescript
+import { getAllBlogPosts, getBlogPostsByTag } from "@/lib/blog";
+
+// Get all published blog posts
+const posts = getAllBlogPosts();
+
+// Get posts by specific tag
+const mdxPosts = getBlogPostsByTag("mdx");
+```
+
+## What's Next?
+
+You can now start creating your own blog posts with frontmatter. Each post should include at minimum:
+
+- `title`: The post title
+- `description`: A brief description
+- `date`: Publication date (YYYY-MM-DD format)
+- `author`: Your name
+- `published`: Whether the post should be shown publicly
+
+Happy blogging! 🎉

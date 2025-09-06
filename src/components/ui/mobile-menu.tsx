@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { NAV_LINKS } from "@/const";
+import { NAV_LINKS } from "@/lib/config/site";
 
 const MobileMenu = () => {
   return (
