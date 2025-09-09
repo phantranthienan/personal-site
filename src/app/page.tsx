@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="w-full">
+    <div className="mx-auto w-full max-w-3xl px-4">
       <section>
         <div className="flex flex-col space-y-2">
           <h2 className="text-3xl leading-none font-medium">

@@ -1,17 +1,15 @@
-export interface BlogFrontmatter {
+export interface BlogPostFrontmatter {
   title: string;
   summary: string;
   date: string;
   tags: string[];
 }
 
-export interface BlogMetadata extends BlogFrontmatter {
-  availableLanguages: string[];
-  readingTime: number;
+export interface BlogPostMetadata extends BlogPostFrontmatter {
+  languages: string[];
 }
 
-export interface Blog {
-  metadata: BlogMetadata;
+export interface BlogPost {
+  metadata: BlogPostMetadata;
   slug: string;
-  content: string;
 }

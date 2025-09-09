@@ -1,8 +1,16 @@
 import React from "react";
 
+import { Book, Calendar, LibraryBig, Hash } from "lucide-react";
+
 import Link from "next/link";
 
-import { getBlog } from "@/lib/content/blog-loader";
+import BlogNavigation from "@/components/blog/BlogNavigation";
+import TableOfContents from "@/components/blog/TableOfContents";
+import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import { badgeVariants } from "@/components/ui/badge";
+import { getBlogPost } from "@/lib/content/blog-loader";
+import { getAdjacentPosts } from "@/lib/content/blog-queries";
+import { extractToc } from "@/lib/mdx/toc-extractor";
 
 interface BlogPostPageProps {
   params: {
@@ -12,101 +20,84 @@ interface BlogPostPageProps {
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const currentLanguage = params.lang?.[0] || "en";
-  const blog = getBlog(params.slug, currentLanguage);
+  const { slug, lang } = await params;
+  const currentLanguage = lang?.[0] || "en";
 
-  const blogFile = await import(
-    `@/content/blogs/${params.slug}/${currentLanguage}.mdx`
+  const blogPost = getBlogPost(slug, currentLanguage);
+  const { prev, next } = getAdjacentPosts(slug);
+  const tocItems = extractToc(slug, currentLanguage);
+
+  const blogPostFile = await import(
+    `@/content/blogs/${slug}/${currentLanguage}.mdx`
   );
-  const BlogContent = blogFile.default;
+  const Content = blogPostFile.default;
 
-  const blogDate = blog.metadata.date;
-  const blogTitle = blog.metadata.title;
-  const blogSummary = blog.metadata.summary;
-  const blogTags = blog.metadata.tags;
-  const blogReadingTime = blog.metadata.readingTime;
+  // Format the date
+  const formattedDate = new Date(blogPost.metadata.date).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
 
   return (
-    <article className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl">
-        {/* Back to blog link */}
-        <Link
-          href="/blog"
-          className="mb-8 inline-block text-blue-600 hover:underline dark:text-blue-400"
-        >
-          ← Back to Blog
-        </Link>
+    <div className="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6 px-4">
+      <nav className="col-start-2">
+        <Breadcrumbs
+          items={[
+            { href: "/blog", label: "Blog", icon: LibraryBig },
+            {
+              href: `/blog/${slug}`,
+              label: blogPost.metadata.title,
+              icon: Book,
+            },
+          ]}
+        />
+      </nav>
 
-        {/* Article header */}
-        <header className="mb-8">
-          <h1 className="mb-4 text-4xl font-bold">{blogTitle}</h1>
+      <header className="col-start-2 flex flex-col gap-y-4 text-center">
+        <h1 className="text-3xl font-medium sm:text-4xl">
+          {blogPost.metadata.title}
+        </h1>
 
-          <div className="mb-4 flex items-center space-x-4 text-gray-600 dark:text-gray-400">
-            <time dateTime={blogDate}>
-              {new Date(blogDate).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            <span>•</span>
-            <span>By {currentLanguage}</span>
-            {blogReadingTime && (
-              <>
-                <span>•</span>
-                <span>{blogReadingTime} min read</span>
-              </>
-            )}
-          </div>
-
-          <p className="mb-6 text-xl text-gray-700 dark:text-gray-300">
-            {blogSummary}
-          </p>
-
-          {/* Tags */}
-          {blogTags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {blogTags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tag?tag=${encodeURIComponent(tag)}`}
-                  className="rounded-full bg-blue-100 px-3 py-1 text-sm text-blue-800 transition-colors hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          )}
-        </header>
-
-        {/* Article content */}
-        <div className="prose dark:prose-invert max-w-none">
-          <BlogContent />
+        <div className="text-muted-foreground flex items-center justify-center gap-x-1 text-xs sm:gap-x-2 sm:text-sm">
+          <Calendar className="-mt-0.75 size-3 sm:size-4" />
+          <time dateTime={blogPost.metadata.date}>{formattedDate}</time>
         </div>
 
-        {/* Footer */}
-        <footer className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/blog"
-              className="text-blue-600 hover:underline dark:text-blue-400"
-            >
-              ← Back to all posts
-            </Link>
+        <div className="flex flex-wrap justify-center gap-2">
+          {blogPost.metadata.tags &&
+            blogPost.metadata.tags.length > 0 &&
+            blogPost.metadata.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/tags/${tag}`}
+                className={badgeVariants({ variant: "secondary" })}
+              >
+                <Hash className="size-3" />
+                {tag}
+              </Link>
+            ))}
+        </div>
+      </header>
 
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Published on{" "}
-              <time dateTime={blogDate}>
-                {new Date(blogDate).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </div>
-          </div>
-        </footer>
+      <aside className="col-start-1 hidden lg:block">
+        <div className="sticky top-8 mr-8">
+          <TableOfContents items={tocItems} />
+        </div>
+      </aside>
+
+      <main className="col-start-2">
+        <div className="prose prose-lg dark:prose-invert w-full max-w-none">
+          <Content />
+        </div>
+      </main>
+
+      <div className="col-start-2">
+        <BlogNavigation prev={prev} next={next} />
       </div>
-    </article>
+    </div>
   );
 }

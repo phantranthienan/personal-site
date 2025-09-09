@@ -3,55 +3,45 @@ import path from "path";
 
 import matter from "gray-matter";
 
-import { Blog, BlogFrontmatter } from "@/types/blog";
+import { BlogPost, BlogPostMetadata } from "@/types/blog";
 
-const BLOGS_DIRECTORY = path.join(process.cwd(), "src/content/blogs");
+const BLOG_DIRECTORY = path.join(process.cwd(), "src/content/blogs");
 
 /**
  * Get all blog slugs by reading the directory structure
  * Each slug corresponds to a folder name in /content/blogs/
  */
 export const getSlugs = (): string[] => {
-  const entries = fs.readdirSync(BLOGS_DIRECTORY, { withFileTypes: true });
+  const entries = fs.readdirSync(BLOG_DIRECTORY, { withFileTypes: true });
   return entries
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
 };
 
 /**
- * Get a blog post by slug - always returns the main index.mdx with available languages
+ * Get blog metadata only (no content)
  */
-export const getBlog = (slug: string, lang: string = "en"): Blog => {
-  const blogDir = path.join(BLOGS_DIRECTORY, slug);
-  const raw = fs.readFileSync(path.join(blogDir, `${lang}.mdx`), "utf8");
-  const { content, data } = matter(raw);
+export const getBlogPost = (slug: string, lang: string = "en"): BlogPost => {
+  const blogPostDir = path.join(BLOG_DIRECTORY, slug);
+  const filePath = path.join(blogPostDir, `${lang}.mdx`);
 
-  const frontmatter = data as BlogFrontmatter;
+  const languages = getAvailableLanguages(blogPostDir);
 
-  const wordCount = content
-    .split(/\s+/)
-    .filter((word) => word.length > 0).length;
-  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
-  const availableLanguages = getBlogAvailableLanguages(blogDir);
-
+  const raw = fs.readFileSync(filePath, "utf8");
+  const { data } = matter(raw);
   const metadata = {
-    ...frontmatter,
-    availableLanguages,
-    readingTime,
-  };
+    ...data,
+    languages,
+  } as BlogPostMetadata;
 
   return {
     metadata,
     slug,
-    content,
   };
 };
 
-/**
- * Get available languages for a blog post
- */
-const getBlogAvailableLanguages = (blogDir: string): string[] => {
-  const files = fs.readdirSync(blogDir);
+const getAvailableLanguages = (blogPostDir: string): string[] => {
+  const files = fs.readdirSync(blogPostDir);
   const languages = new Set<string>();
 
   files.forEach((file) => {

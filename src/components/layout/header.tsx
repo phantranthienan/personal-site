@@ -13,8 +13,8 @@ const Header = () => {
     <header className="bg-background sticky top-0 z-50">
       <nav className="mx-auto flex max-w-3xl items-center justify-between px-4 py-2">
         <Link href="/" className="flex items-center">
-          <Star size={20} className="text-foreground fill-foreground" />
-          <span className="text-lg">nphan</span>
+          <Star size={28} className="text-foreground fill-foreground" />
+          <span className="text-xl">nphan</span>
         </Link>
         <div className="flex items-center sm:gap-4">
           <div className="hidden items-center gap-4 text-sm sm:flex sm:gap-6">

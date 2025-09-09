@@ -1,7 +1,7 @@
 import { JetBrains_Mono } from "next/font/google";
 
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 import type { Metadata } from "next";
@@ -33,7 +33,7 @@ export default function RootLayout({
         >
           <div className="flex h-fit min-h-screen flex-col gap-y-4">
             <Header />
-            <main className="mx-auto max-w-3xl grow px-4">{children}</main>
+            <main className="grow">{children}</main>
             <Footer />
           </div>
         </ThemeProvider>

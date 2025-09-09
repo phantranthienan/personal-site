@@ -1,21 +1,22 @@
+import { House, LibraryBig, Briefcase, User } from "lucide-react";
 export const NAV_LINKS = [
   {
-    icon: "house",
+    icon: House,
     label: "Home",
     href: "/",
   },
   {
-    icon: "library-big",
+    icon: LibraryBig,
     label: "Blog",
     href: "/blog",
   },
   {
-    icon: "briefcase",
+    icon: Briefcase,
     label: "Work",
     href: "/work",
   },
   {
-    icon: "user",
+    icon: User,
     label: "About",
     href: "/about",
   },

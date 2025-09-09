@@ -1,5 +1,4 @@
 import { Menu } from "lucide-react";
-import { DynamicIcon } from "lucide-react/dynamic";
 
 import Link from "next/link";
 
@@ -33,10 +32,7 @@ const MobileMenu = () => {
               href={item.href}
               className="flex w-full items-center capitalize"
             >
-              <DynamicIcon
-                name={item.icon}
-                className="text-foreground size-4"
-              />
+              <item.icon className="text-foreground size-4" />
               {item.label}
             </Link>
           </DropdownMenuItem>
